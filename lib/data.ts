@@ -6,12 +6,12 @@
 // =============================================================================
 
 export const hero = {
-  kicker: "Growth operator · San Francisco",
-  lead: "I get good products their first",
+  kicker: "AI-native growth operator · San Francisco",
+  leadA: "I take products to their first",
   figure: "100,000",
-  tail: "users.",
-  positioning:
-    "AI-native growth operator. I find the channel, build the engine that feeds it, and run the data that makes it compound.",
+  leadB: "users.",
+  line2: "I build the AI that gets them there.",
+  dek: "Media to growth to deep-tech sales to building. Four years learning how attention moves, then 14x on YouTube, a $1M pipeline from zero, and a RAG product shipped solo. The same person did all of it.",
   sub: "Product sense, marketing instinct, sales rigor, and an analyst's discipline in one early hire.",
   contexts: ["EdTech", "Deep-tech", "DTC", "Congressional campaign"],
   email: "asherelginrolls@gmail.com",

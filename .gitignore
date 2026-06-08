@@ -42,3 +42,5 @@ next-env.d.ts
 
 # local dev notes (not part of the site)
 SESSION_PROMPT.md
+
+.vercel
