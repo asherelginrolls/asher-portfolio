@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Asher Elgin Rolls · AI-native growth operator",
     description:
-      "I get good products their first 100,000 users. Product sense, marketing instinct, sales rigor, and an analyst's discipline in one early hire.",
+      "I take products to their first 100,000 users. I build the AI that gets them there. 14x on YouTube, a $1M pipeline from zero, and a RAG product shipped solo.",
     type: "website",
     url: SITE,
   },
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Asher Elgin Rolls · AI-native growth operator",
     description:
-      "I get good products their first 100,000 users. One early growth hire who builds his own AI tools.",
+      "I take products to their first 100,000 users. I build the AI that gets them there.",
   },
 };
 

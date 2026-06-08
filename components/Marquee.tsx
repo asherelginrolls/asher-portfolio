@@ -4,7 +4,7 @@ import { marquee } from "@/lib/data";
 export function Marquee() {
   return (
     <div
-      className="marquee-host rule-b overflow-hidden bg-ink py-3 text-paper"
+      className="marquee-host rule-t rule-b overflow-hidden bg-paper-2/50 py-3 text-ink backdrop-blur-sm"
       aria-label="Channels, clients, and outcomes"
     >
       <div className="flex w-max animate-marquee">
@@ -19,7 +19,7 @@ export function Marquee() {
                 key={item}
                 className="flex items-center gap-6 whitespace-nowrap px-6"
               >
-                <span className="mono text-[11px] uppercase tracking-[0.16em] text-paper/75">
+                <span className="mono text-[11px] uppercase tracking-[0.16em] text-ink/65">
                   {item}
                 </span>
                 <span className="text-accent" aria-hidden="true">

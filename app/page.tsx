@@ -1,3 +1,4 @@
+import { SignalField } from "@/components/SignalField";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { Marquee } from "@/components/Marquee";
@@ -12,18 +13,26 @@ import { Footer } from "@/components/Footer";
 export default function Home() {
   return (
     <>
-      <Nav />
-      <main id="top">
-        <Hero />
-        <Marquee />
-        <ProofBar />
-        <ScrollStory />
-        <Work />
-        <ClaimRight />
-        <Workshop />
-        <Contact />
-      </main>
-      <Footer />
+      <SignalField />
+      <div className="relative z-10">
+        <Nav />
+        <main id="top">
+          {/* Hero sits transparent over the live signal field */}
+          <Hero />
+          {/* Everything below rides a dark scrim so the line only whispers
+              through and the copy stays fully legible */}
+          <div className="relative bg-paper/92">
+            <Marquee />
+            <ProofBar />
+            <ScrollStory />
+            <Work />
+            <ClaimRight />
+            <Workshop />
+            <Contact />
+          </div>
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }
