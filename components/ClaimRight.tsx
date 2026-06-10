@@ -26,12 +26,12 @@ export function ClaimRight() {
               {cr.lead}
             </p>
 
-            <p className="mt-7 border-l-2 border-accent pl-5 text-[clamp(1.05rem,1.8vw,1.35rem)] font-medium leading-snug">
+            <p className="my-12 max-w-[36ch] border-l-2 border-accent pl-5 text-[clamp(1.05rem,1.8vw,1.35rem)] font-medium leading-snug sm:my-16">
               {cr.origin}
             </p>
 
             {/* citation-gated pipeline */}
-            <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {cr.steps.map((s, i) => (
                 <div
                   key={s.n}

@@ -25,15 +25,17 @@ export function Counter({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setDisplay(value);
-      return;
-    }
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
           if (e.isIntersecting && !started.current) {
             started.current = true;
+            if (reduce) {
+              setDisplay(value);
+              io.disconnect();
+              return;
+            }
             const start = performance.now();
             const tick = (now: number) => {
               const t = Math.min((now - start) / duration, 1);
