@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { work } from "@/lib/data";
 import { SectionHead } from "@/components/SectionHead";
 import { Reveal } from "@/components/Reveal";
@@ -112,6 +113,16 @@ export function Work() {
                       ))}
                     </div>
                   ) : null}
+
+                  <Link
+                    href={`/work/${w.id}`}
+                    className="group mono mt-7 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.08em] text-accent"
+                  >
+                    Read the case
+                    <span className="transition-transform duration-200 group-hover:translate-x-1">
+                      {"->"}
+                    </span>
+                  </Link>
                 </div>
               </article>
             </Reveal>

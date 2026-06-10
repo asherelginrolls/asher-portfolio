@@ -133,6 +133,14 @@ export const pipeline = [
   { name: "Chicking", w: 0.72, stage: "Active" },
 ];
 
+export type CaseStudy = {
+  headline: string;
+  intro: string;
+  sections: { kicker: string; title: string; body: string }[];
+  numbers: { n: string; l: string }[];
+  coda?: string;
+};
+
 export type Work = {
   id: string;
   tag: string;
@@ -148,6 +156,7 @@ export type Work = {
     stats: { n: string; l: string }[];
   };
   duo?: { name: string; title: string; body: string }[];
+  study: CaseStudy;
 };
 
 export const work: Work[] = [
@@ -163,6 +172,37 @@ export const work: Work[] = [
       "15 KPI dashboards + SOPs",
       "Crossed 200K after handoff, on my systems",
     ],
+    study: {
+      headline: "Seven thousand to one hundred thousand in nine months.",
+      intro:
+        "Parikshe is SIFF Ventures' Kannada education channel in Bengaluru. When I joined in November 2023 it had 7K subscribers, good content, and no system. I left it at 100K with a system so documented it kept compounding without me.",
+      sections: [
+        {
+          kicker: "The read",
+          title: "First, learn what the audience actually rewards.",
+          body: "I categorized every Short into six content types, motivation, academic, help, technique, marketing, trending, and tracked average performance per type. Same exercise for community posts across ten categories: time-management posts alone pulled a 12.31% engagement rate. The channel stopped guessing. Every thumbnail, title, and format became a test with a number attached.",
+        },
+        {
+          kicker: "The system",
+          title: "Then build the machine that ships the winners.",
+          body: "Fifteen KPI dashboards tracked views, watch time, and engagement by content type, read weekly. A full upload SOP covered titles, descriptions, tags, vidIQ scoring, and scheduling. Community posts ran through an ideation, design, Kannada translation, and QC pipeline. ChatGPT handled bulk comment response and SEO drafts, and two hours a day went to engagement by hand.",
+        },
+        {
+          kicker: "The result",
+          title: "The numbers moved the way systems move them.",
+          body: "Subscribers climbed from 7K past 100K in nine months. Watch-time retention rose 133%. Shorts engagement rose 371%. Instagram went from 1K to 50K+ on the same playbook. And the part I am proudest of: the channel crossed 200K after I handed it off, running on the SOPs I left behind.",
+        },
+      ],
+      numbers: [
+        { n: "100K", l: "subscribers, from 7K in nine months" },
+        { n: "133%", l: "watch-time retention lift" },
+        { n: "371%", l: "Shorts engagement lift" },
+        { n: "50K+", l: "Instagram followers, from 1K" },
+        { n: "15", l: "KPI dashboards, read weekly" },
+        { n: "200K+", l: "crossed after handoff, on my systems" },
+      ],
+      coda: "Growth that depends on the operator is a job. Growth that survives the operator is a system.",
+    },
   },
   {
     id: "saikat",
@@ -176,6 +216,35 @@ export const work: Work[] = [
       "100+ daily contacts",
       "15% engagement rate",
     ],
+    study: {
+      headline: "A field team that got sharper every night.",
+      intro:
+        "Saikat Chakrabarti ran for Congress in San Francisco. From November 2025 through June 2026 I led growth and outreach: a 10-person canvass team, the campaign's Instagram, and 100+ of my own voter conversations a day.",
+      sections: [
+        {
+          kicker: "The problem",
+          title: "Canvassing data usually dies in a spreadsheet.",
+          body: "A canvass team generates hundreds of conversations a day, and almost all of the signal in them evaporates by morning. Which script lost the room, which objection kept recurring, which message actually moved someone: that knowledge lived in canvassers' heads, briefly, and then it was gone.",
+        },
+        {
+          kicker: "The build",
+          title: "A Claude layer that read the field every night.",
+          body: "I built an intelligence layer on Claude that ingested each day's field data, flagged the scripts that were losing, and fed sharper messaging back to the team before the next shift. The canvass became a loop instead of a grind: every conversation made the next day's conversations slightly better.",
+        },
+        {
+          kicker: "The result",
+          title: "Persuasion is the campaign metric that matters. It moved.",
+          body: "Average team persuasion climbed from 35% to 50% across the 10-person team. I personally worked 100+ voter contacts a day at a 65% persuasion rate. On the content side, @saikatforcongress grew from 10K to 107K+ followers at a 15% engagement rate, and 20+ local businesses a day heard from us about co-branded visibility.",
+        },
+      ],
+      numbers: [
+        { n: "50%", l: "team persuasion, up from 35%" },
+        { n: "65%", l: "my own persuasion rate at 100+ contacts a day" },
+        { n: "107K+", l: "Instagram followers, from 10K" },
+        { n: "15%", l: "engagement rate at that scale" },
+      ],
+      coda: "The AI did not talk to a single voter. It just made sure no conversation was wasted on a script that had already failed.",
+    },
   },
   {
     id: "mtech",
@@ -192,6 +261,40 @@ export const work: Work[] = [
         { n: "70%", l: "less waste" },
         { n: "100+", l: "daily touches, automated" },
       ],
+    },
+    study: {
+      headline: "A blank CRM, a Japanese nanofiber, and seven months.",
+      intro:
+        "MTech-X is a Japanese deep-tech company expanding out of Japan and Malaysia. Its product, Magic Fiber, is the world's first mass-produced nanofiber oil absorbent. I joined in March 2025 to build its outbound motion from zero.",
+      sections: [
+        {
+          kicker: "The product",
+          title: "The material had already earned its story.",
+          body: "After a 2019 factory spill in Japan, Magic Fiber pulled 54,000 liters of oil from the water in two weeks. In Mauritius it helped clean a 1,000-ton spill and protect 300,000 mangroves. It absorbs roughly 50 times its weight, cuts waste by about 70%, is SGS-certified, holds eight patents, and TV Tokyo named it a product of the year out of 242 entries.",
+        },
+        {
+          kicker: "The translation",
+          title: "Buyers act on cost and risk, never on polymer science.",
+          body: "A C-suite room does not buy nanofiber. It buys faster spill response, lower disposal cost, and a compliance story that holds. My job was that translation. I wrote the ICP, the messaging library, the battle cards, and the discovery framework the team ran, every asset converting lab specification into operational language a decision-maker could act on.",
+        },
+        {
+          kicker: "The engine",
+          title: "One person, running outbound like a department.",
+          body: "I built the system with whatever fit the job: PhantomBuster and n8n pushing 100+ automated outbound touches a day, ChatGPT in the research loop, and an internal research-and-strategy bot I built for senior management. A blank CRM in March was a working pipeline by autumn.",
+        },
+        {
+          kicker: "The result",
+          title: "$1M+ in pipeline, all of it at C-suite stage.",
+          body: "Seven months in, the pipeline held $1M+ in enterprise opportunities at final-stage C-suite review across four markets: Daikin, Japan Airlines, Chicking, and the Kerala state government.",
+        },
+      ],
+      numbers: [
+        { n: "$1M+", l: "enterprise pipeline from a standing start" },
+        { n: "4", l: "markets at C-suite stage" },
+        { n: "100+", l: "automated outbound touches a day" },
+        { n: "7", l: "months from blank CRM to final review" },
+      ],
+      coda: "Selling deep tech is a translation job. The science earns the meeting. The language closes it.",
     },
   },
   {
@@ -213,6 +316,35 @@ export const work: Work[] = [
         body: "A two-sided marketplace linking 20+ farmers to enterprise buyers. Second runner-up at Hult Prize SF, with an invitation to present at Google.",
       },
     ],
+    study: {
+      headline: "Two companies before any employer.",
+      intro:
+        "Before I was anyone's growth hire I owned a P&L twice: VOIDX, a streetwear brand I founded at 19 in Bengaluru, and TAPP, an agri-trade marketplace built at Hult in San Francisco.",
+      sections: [
+        {
+          kicker: "VOIDX · 2022 to 2023",
+          title: "A drop-based brand, profitable in month one.",
+          body: "VOIDX sold design-forward streetwear in limited drops, collections like Skullflower and 2 Birds 1 Stoned, every tee at 180gsm minimum. I ran the whole machine: design direction, pricing, lifecycle marketing, inventory. It sold 1,000+ units, turned profitable in the first month, and did ₹9,00,000+ in revenue, about $11K, as a college-room operation.",
+        },
+        {
+          kicker: "TAPP · 2024 to 2025",
+          title: "Rubber farmers, connected straight to enterprise buyers.",
+          body: "TAPP was a two-sided marketplace for the $40B rubber trade, built to route smallholder farmers around the middlemen who take most of their earnings. The pilot connected 20+ farmers with enterprise buyers, with escrow-secured payment on delivery at its core. It took second runner-up at Hult Prize San Francisco and an invitation to present at Google.",
+        },
+        {
+          kicker: "What it left",
+          title: "The instinct for what a founder is carrying.",
+          body: "Running two companies means cash-flow math at 2am, suppliers who miss dates, and pricing decisions with your own money on the line. When I work for a founder now, I know the weight of the decisions on their desk, because smaller versions of them used to be on mine.",
+        },
+      ],
+      numbers: [
+        { n: "1,000+", l: "VOIDX units sold" },
+        { n: "₹9L+", l: "VOIDX revenue, profitable month one" },
+        { n: "20+", l: "farmers connected through TAPP" },
+        { n: "2nd", l: "runner-up, Hult Prize SF" },
+      ],
+      coda: "Both ventures are closed. The judgment they bought stays open.",
+    },
   },
 ];
 
