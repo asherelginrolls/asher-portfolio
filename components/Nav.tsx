@@ -23,7 +23,6 @@ export function Nav() {
     >
       <div className="wrap flex h-14 items-center justify-between">
         <a href="#top" className="flex items-baseline gap-2" aria-label="Home">
-          <span className="size-1.5 translate-y-[-1px] rounded-full bg-accent blink" />
           <span className="text-[15px] font-semibold tracking-tight">
             Asher Elgin Rolls
           </span>

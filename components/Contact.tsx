@@ -15,7 +15,7 @@ export function Contact() {
             />
 
             <span className="mono inline-flex items-center gap-2.5 border border-ink/20 px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] text-ink/80">
-              <span className="size-1.5 rounded-full bg-accent blink" />
+              <span className="h-px w-5 bg-accent" aria-hidden="true" />
               {c.status}
             </span>
 

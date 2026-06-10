@@ -64,10 +64,11 @@ export function ScrollStory() {
           eyebrow="The story"
           title={
             <>
-              One line runs through <span className="text-accent">all of it.</span>
+              The surfaces changed.{" "}
+              <span className="text-accent">The work stayed the same.</span>
             </>
           }
-          lead="Attention has been my craft from the start. I learned how it moves, spent years moving it, learned to sell hard things with it, and built the AI systems that make it scale. The surfaces changed. The work stayed the same."
+          lead="Attention has been the craft from the start. I learned how it moves, spent years moving it, learned to sell hard things with it, and built the AI systems that make it scale."
         />
 
         <div className="mt-14 border-t border-ink/15">

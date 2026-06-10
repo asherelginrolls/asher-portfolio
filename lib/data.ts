@@ -11,7 +11,7 @@ export const hero = {
   figure: "100,000",
   leadB: "users.",
   line2: "I build the AI that gets them there.",
-  dek: "Media to growth to deep-tech sales to building. Four years learning how attention moves, then 14x on YouTube, a $1M pipeline from zero, and a RAG product shipped solo. The same person did all of it.",
+  dek: "Media to growth to deep-tech sales to building. A YouTube channel from 7K to 100K subscribers in nine months, a $1M enterprise pipeline from zero, and a RAG product shipped solo. The same person did all of it.",
   sub: "Product sense, marketing instinct, sales rigor, and an analyst's discipline in one early hire.",
   contexts: ["EdTech", "Deep-tech", "DTC", "Congressional campaign"],
   email: "asherelginrolls@gmail.com",
@@ -28,10 +28,10 @@ export type Stat = {
 
 export const proof: Stat[] = [
   {
-    value: "14",
-    suffix: "×",
-    target: 14,
-    cap: "7K to 100K subscribers in nine months",
+    value: "100",
+    suffix: "K",
+    target: 100,
+    cap: "YouTube subscribers, grown from 7K in nine months",
     src: "SIFF Ventures · 2023 to 2024",
   },
   {
@@ -53,7 +53,7 @@ export const proof: Stat[] = [
     value: "200",
     suffix: "+",
     target: 200,
-    cap: "User interactions across 10+ shipped AI tools",
+    cap: "User interactions across my live AI tools",
     src: "Independent builds · 2024 to now",
   },
 ];
@@ -65,11 +65,13 @@ export const marquee = [
   "Japan Airlines",
   "Kerala Government",
   "Chicking",
-  "Instagram 107K+",
+  "Instagram 10K to 107K",
   "ClaimRight RAG product",
   "Hult Prize SF",
-  "10+ AI tools shipped",
+  "6 AI tools live",
 ];
+
+export type SignalState = "horizon" | "growth" | "pipeline" | "system" | "settle";
 
 export type Act = {
   no: string;
@@ -77,6 +79,7 @@ export type Act = {
   title: string;
   body: string;
   stat: { k: string; v: string };
+  signal: SignalState;
 };
 
 export const acts: Act[] = [
@@ -84,29 +87,33 @@ export const acts: Act[] = [
     no: "01",
     kicker: "Media",
     title: "Four years learning how attention moves",
-    body: "Advertising, copywriting, mass communication. The mechanics of it. Why something gets clicked, what earns the read, how you hold attention once you have it. Manipal Institute taught me the craft. Every job since has run on it.",
+    body: "Advertising, copywriting, mass communication. The mechanics of it. Why something gets clicked, what earns the read, how you hold attention once you have it. Four years inside that craft. Every job since has run on it.",
     stat: { k: "4 yrs", v: "the craft" },
+    signal: "horizon",
   },
   {
     no: "02",
     kicker: "Growth",
     title: "Seven thousand subscribers. Then a hundred thousand.",
     body: "I took a 7K-subscriber YouTube channel and pushed it past 100K in nine months. I built the KPI dashboards, ran the A/B tests, found the formats that compounded, and rebuilt the channel around them. I left it at 100K. It crossed 200K after handoff, on my systems.",
-    stat: { k: "14×", v: "7K to 100K" },
+    stat: { k: "100K", v: "from 7K in nine months" },
+    signal: "growth",
   },
   {
     no: "03",
     kicker: "Sales",
-    title: "A product most buyers had never heard of. A million-dollar pipeline anyway.",
-    body: "I carried a Japanese nanofiber oil absorbent into rooms with Daikin, Japan Airlines, and the Kerala state government. I started with a blank CRM and my own outbound engine. Seven months later: $1M+ in enterprise pipeline, all at C-suite stage.",
+    title: "A nanofiber material, translated into a $1M pipeline.",
+    body: "MTech-X makes Magic Fiber, a nanofiber oil absorbent. My job was translation: turning materials science into language a C-suite acts on, in rooms with Daikin, Japan Airlines, and the Kerala state government. I built the outbound system from zero with whatever tools fit the job. Seven months later: $1M+ in enterprise pipeline.",
     stat: { k: "$1M+", v: "pipeline" },
+    signal: "pipeline",
   },
   {
     no: "04",
     kicker: "AI",
     title: "One operator. Working like a team.",
     body: "The AI layer runs underneath everything now. ClaimRight, a full RAG product I built solo. Custom Claude skills. n8n automations. A field intelligence system I built for a congressional campaign. The tools that compress what used to take a team into what one person can carry.",
-    stat: { k: "10+", v: "tools shipped" },
+    stat: { k: "6", v: "AI tools, live" },
+    signal: "system",
   },
 ];
 
@@ -175,7 +182,7 @@ export const work: Work[] = [
     tag: "Deep-Tech · Nanofiber · Mar 2025 to Oct 2025",
     role: "Growth & Outreach Lead",
     metric: "$1M+",
-    title: "Selling a material most buyers had never heard of.",
+    title: "Magic Fiber, from a blank CRM to C-suite review.",
     body: "MTech-X makes Magic Fiber, the world's first mass-produced nanofiber oil absorbent. I built the outbound engine from zero and carried a $1M+ pipeline to final-stage C-suite review across four markets: Daikin, Japan Airlines, Chicking, and the Kerala state government. I wrote the ICP, the messaging library, the battle cards, and the discovery framework the team ran.",
     feature: {
       label: "What I was selling",
@@ -191,7 +198,7 @@ export const work: Work[] = [
     id: "founder",
     tag: "Founder · 2022 to 2025",
     role: "VOIDX · TAPP",
-    metric: "2×",
+    metric: "2",
     title: "Ran two companies before I worked for anyone.",
     body: "Before I was anyone's growth hire, I owned the P&L. Two companies, two real numbers, and the instinct for what a founder is actually carrying.",
     duo: [
@@ -220,32 +227,32 @@ export const claimright = {
       n: "01",
       k: "Retrieve",
       h: "Pull the regulation",
-      p: "Finds the real IRDAI circulars and ombudsman awards from a vector store.",
+      p: "Embeds the claim and pulls matching IRDAI circulars and ombudsman awards from pgvector. Below a 0.65 similarity floor, it writes nothing.",
       gate: false,
     },
     {
       n: "02",
       k: "Draft",
       h: "Write the letter",
-      p: "Claude drafts the dispute point by point, citing a source on each one.",
+      p: "Claude drafts the dispute point by point, citing a source on every claim it makes.",
       gate: false,
     },
     {
       n: "03",
       k: "Check",
-      h: "Match every citation",
-      p: "Each cited line is matched back to its source text and graded.",
+      h: "Grade every citation",
+      p: "Each cited sentence is matched back to its source text and scored. Weak support gets softened. Under 0.40, the sentence is cut.",
       gate: true,
     },
     {
       n: "04",
       k: "Ship",
       h: "Send it grounded",
-      p: "The letter goes out backed only by sources it can actually point to.",
+      p: "The letter goes out citing only sources it can point to, line by line.",
       gate: false,
     },
   ],
-  note: "A 27-case regression test fails the build if a single unsupported citation slips through.",
+  note: "A 27-case regression test, 9 rejection categories against 3 retrieval scenarios each, fails the build if a single unsupported citation slips through.",
   stack: [
     "Next.js 14",
     "TypeScript",
@@ -257,10 +264,10 @@ export const claimright = {
     "Resend",
   ],
   stats: [
-    { b: "~4,400", s: "lines of TypeScript" },
-    { b: "40+", s: "files, all 5 screens" },
-    { b: "9", s: "rejection categories" },
-    { b: "27", s: "case test gate" },
+    { b: "5", s: "official sources in the vector store" },
+    { b: "9", s: "rejection categories grounded in IRDAI text" },
+    { b: "0.65", s: "similarity floor before it claims anything" },
+    { b: "27", s: "cases in the regression gate" },
   ],
   repo: "https://github.com/asherelginrolls/ClaimRightV.1",
 };
