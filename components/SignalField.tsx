@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import dynamic from "next/dynamic";
 import { SignalFallback } from "@/components/SignalFallback";
 
@@ -9,25 +9,48 @@ const SignalFieldGL = dynamic(() => import("@/components/SignalFieldGL"), {
   loading: () => <SignalFallback />,
 });
 
-// Fixed field behind all content. Mounts the GPU scene only on capable,
-// motion-friendly, wide clients; everywhere else the static fallback stands in.
-export function SignalField() {
-  const [can3D, setCan3D] = useState(false);
-
-  useEffect(() => {
-    const reduce = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    const wide = window.matchMedia("(min-width: 768px)").matches;
-    let webgl = false;
+// Capability gate as an external-store subscription: the GPU scene mounts only
+// on wide, motion-friendly, WebGL-capable clients, and it responds live if the
+// viewport or the motion preference changes. Everywhere else (and on the
+// server) the static fallback stands in.
+let webglCache: boolean | null = null;
+function webglAvailable(): boolean {
+  if (webglCache === null) {
     try {
       const c = document.createElement("canvas");
-      webgl = !!(c.getContext("webgl2") || c.getContext("webgl"));
+      webglCache = !!(c.getContext("webgl2") || c.getContext("webgl"));
     } catch {
-      webgl = false;
+      webglCache = false;
     }
-    setCan3D(!reduce && wide && webgl);
-  }, []);
+  }
+  return webglCache;
+}
+
+function subscribe(onChange: () => void): () => void {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const wide = window.matchMedia("(min-width: 768px)");
+  reduce.addEventListener("change", onChange);
+  wide.addEventListener("change", onChange);
+  return () => {
+    reduce.removeEventListener("change", onChange);
+    wide.removeEventListener("change", onChange);
+  };
+}
+
+function getSnapshot(): boolean {
+  return (
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+    window.matchMedia("(min-width: 768px)").matches &&
+    webglAvailable()
+  );
+}
+
+function getServerSnapshot(): boolean {
+  return false;
+}
+
+export function SignalField() {
+  const can3D = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   return (
     <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">

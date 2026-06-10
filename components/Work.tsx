@@ -1,10 +1,11 @@
+import Link from "next/link";
 import { work } from "@/lib/data";
 import { SectionHead } from "@/components/SectionHead";
 import { Reveal } from "@/components/Reveal";
 
 export function Work() {
   return (
-    <section id="work" className="py-20 sm:py-28 lg:py-32">
+    <section id="work" data-signal="settle" className="py-20 sm:py-28 lg:py-32">
       <div className="wrap">
         <SectionHead
           index="02"
@@ -112,6 +113,16 @@ export function Work() {
                       ))}
                     </div>
                   ) : null}
+
+                  <Link
+                    href={`/work/${w.id}`}
+                    className="group mono mt-7 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.08em] text-accent"
+                  >
+                    Read the case
+                    <span className="transition-transform duration-200 group-hover:translate-x-1">
+                      {"->"}
+                    </span>
+                  </Link>
                 </div>
               </article>
             </Reveal>

@@ -6,74 +6,23 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
-import { youtubeSeries, pipeline } from "@/lib/data";
+import { PARAMS, ELEV, lerp, smoothstep } from "@/lib/signalStates";
+import { buildScore, sampleScore, type Score } from "@/lib/signalScore";
 
 // -----------------------------------------------------------------------------
-// The signal field. One luminous line of data is the spine of the whole page.
-// Raw three.js, no React reconciler in the loop. A line of points spans the
-// viewport and morphs through five states as the page scrolls:
-//   0 HORIZON -> 1 GROWTH CURVE -> 2 PIPELINE -> 3 NETWORK -> 4 FLAT
-// It breathes on its own and answers the cursor. Bone white, one accent-red
-// focal region per state. UnrealBloomPass gives the glow. Capped DPR, one
-// connecting line + one points cloud + a dim dust field: cheap anywhere.
+// The signal field. One luminous line is the spine of the page, and its motion
+// is the narration: it holds a calm horizon through the media years, climbs
+// the real 7K->100K curve through the growth act, steps down the enterprise
+// pipeline, resolves into one steady system wave, then settles to a quiet
+// floor. The choreography is driven by which tagged section sits under the
+// viewport anchor (lib/signalScore), never by the mouse. Raw three.js, one
+// shared buffer for line + points, restrained UnrealBloom for the glow.
 // -----------------------------------------------------------------------------
 
 const N = 220; // points along the signal
-const AMP = 0.62; // vertical reach in world units
-const BASE = -0.06; // resting horizon, a touch below centre
-
-// sample the real youtube 7K->100K series (12 pts) at any u in [0,1]
-function sampleSeries(series: number[], u: number): number {
-  const x = u * (series.length - 1);
-  const i = Math.floor(x);
-  const f = x - i;
-  const a = series[Math.min(i, series.length - 1)];
-  const b = series[Math.min(i + 1, series.length - 1)];
-  return a + (b - a) * f;
-}
-
-const pipeW = pipeline.map((p) => p.w); // 4 descending stages
-
-// elevation 0..1 for each of the five states at param u in [0,1]
-function horizon(u: number, t: number): number {
-  return 0.5 + Math.sin(u * 7 + t * 0.6) * 0.012;
-}
-function curve(u: number): number {
-  // real growth shape, eased so the climb reads
-  return sampleSeries(youtubeSeries, u);
-}
-function pipeStep(u: number): number {
-  const k = Math.min(pipeW.length - 1, Math.floor(u * pipeW.length));
-  return pipeW[k];
-}
-function network(u: number, t: number): number {
-  return (
-    0.5 +
-    Math.sin(u * Math.PI * 7 + t * 0.9) * 0.16 +
-    Math.sin(u * Math.PI * 17 + t * 1.7) * 0.06
-  );
-}
-
-const STATE_FNS: ((u: number, t: number) => number)[] = [
-  horizon,
-  (u) => curve(u),
-  (u) => pipeStep(u),
-  network,
-  horizon,
-];
-
-// which span of u is the accent focal region, per state
-const FOCAL: [number, number][] = [
-  [0.97, 1.0], // horizon: far right tip
-  [0.86, 1.0], // curve: the 100K summit
-  [0.0, 0.25], // pipeline: the lead account
-  [0.45, 0.6], // network: the active node
-  [0.0, 0.03], // flat: left tip
-];
 
 export default function SignalFieldGL() {
   const mountRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef(0);
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -106,7 +55,7 @@ export default function SignalFieldGL() {
     for (let i = 0; i < N; i++) {
       const u = i / (N - 1);
       positions[i * 3] = -aspect + u * 2 * aspect;
-      positions[i * 3 + 1] = BASE;
+      positions[i * 3 + 1] = PARAMS[0].base;
       positions[i * 3 + 2] = 0;
       bone.toArray(colors, i * 3);
     }
@@ -121,7 +70,7 @@ export default function SignalFieldGL() {
     const lineMat = new THREE.LineBasicMaterial({
       vertexColors: true,
       transparent: true,
-      opacity: 0.5,
+      opacity: PARAMS[0].opacity,
     });
     const line = new THREE.Line(geo, lineMat);
     scene.add(line);
@@ -138,7 +87,7 @@ export default function SignalFieldGL() {
     const dots = new THREE.Points(geo, dotMat);
     scene.add(dots);
 
-    // --- dim dust for depth ---
+    // --- still dust for depth; it does not move, it is not the story ---
     const DUST = 220;
     const dustPos = new Float32Array(DUST * 3);
     for (let i = 0; i < DUST; i++) {
@@ -153,7 +102,7 @@ export default function SignalFieldGL() {
       size: 1.5,
       sizeAttenuation: false,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.3,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
@@ -165,21 +114,27 @@ export default function SignalFieldGL() {
     composer.addPass(new RenderPass(scene, camera));
     const bloom = new UnrealBloomPass(
       new THREE.Vector2(mount.clientWidth, mount.clientHeight),
-      0.9, // strength
-      0.7, // radius
-      0.2 // threshold
+      PARAMS[0].bloom, // strength, lerped per state
+      0.5, // radius
+      0.35 // threshold
     );
     composer.addPass(bloom);
     composer.addPass(new OutputPass());
 
-    // --- cursor (world x, smoothed) ---
-    let cursorX = 0;
-    let cursorTargetX = -10; // offscreen until first move
-    const onPointer = (e: PointerEvent) => {
-      const nx = (e.clientX / window.innerWidth) * 2 - 1;
-      cursorTargetX = nx * aspect;
+    // --- the score: which shape belongs at which scroll position ---
+    let score: Score = [];
+    const remeasure = () => {
+      score = buildScore();
     };
-    window.addEventListener("pointermove", onPointer, { passive: true });
+    remeasure();
+    // content height changes (act reveals do not affect layout, but route
+    // back-navigation, font swaps, and viewport changes all do)
+    const bodyRo = new ResizeObserver(remeasure);
+    bodyRo.observe(document.body);
+    window.addEventListener("resize", remeasure, { passive: true });
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(remeasure).catch(() => undefined);
+    }
 
     const resize = () => {
       const w = Math.max(1, mount.clientWidth);
@@ -202,47 +157,43 @@ export default function SignalFieldGL() {
     const tmp = new THREE.Color();
     const clock = new THREE.Clock();
     let raf = 0;
+    // smoothed scroll position: Lenis already smooths wheel input, this only
+    // absorbs anchor-link teleports so the line glides instead of snapping
+    let smoothY = window.scrollY;
 
     const compute = () => {
       const t = clock.getElapsedTime();
-      const p = progressRef.current; // 0..1 down the page
-      cursorX += (cursorTargetX - cursorX) * 0.06;
+      smoothY += (window.scrollY - smoothY) * 0.14;
 
-      // pick the two states we are between and the local blend
-      const seg = Math.min(3.999, p * 4);
-      const s0 = Math.floor(seg);
-      const s1 = Math.min(4, s0 + 1);
-      const lt = seg - s0;
-      const ease = lt * lt * (3 - 2 * lt); // smoothstep
+      const { s0, s1, e } = sampleScore(score, smoothY);
+      const A = PARAMS[s0];
+      const B = PARAMS[s1];
 
-      const [fa0, fa1] = FOCAL[s0];
-      const [fb0, fb1] = FOCAL[s1];
+      const base = lerp(A.base, B.base, e);
+      const amp = lerp(A.amp, B.amp, e);
+      const f0 = lerp(A.focal[0], B.focal[0], e);
+      const f1 = lerp(A.focal[1], B.focal[1], e);
+
+      lineMat.opacity = lerp(A.opacity, B.opacity, e);
+      dotMat.opacity = lerp(A.opacity, B.opacity, e) + 0.4;
+      bloom.strength = lerp(A.bloom, B.bloom, e);
 
       for (let i = 0; i < N; i++) {
         const u = i / (N - 1);
-        const eA = STATE_FNS[s0](u, t);
-        const eB = STATE_FNS[s1](u, t);
-        const e = eA + (eB - eA) * ease;
-        let y = BASE + (e - 0.5) * 2 * AMP;
+        const eA = ELEV[s0](u, t);
+        const eB = ELEV[s1](u, t);
+        const elev = eA + (eB - eA) * e;
+        positions[i * 3 + 1] = base + (elev - 0.5) * 2 * amp;
 
-        // cursor displacement: a soft swell that trails the pointer
-        const dx = positions[i * 3] - cursorX;
-        y += Math.exp(-(dx * dx) / 0.012) * 0.14;
-
-        positions[i * 3 + 1] = y;
-
-        // focal accent: blend membership of the two states' focal spans
-        const inA = u >= fa0 && u <= fa1 ? 1 : 0;
-        const inB = u >= fb0 && u <= fb1 ? 1 : 0;
-        const acc = inA * (1 - ease) + inB * ease;
+        // one travelling accent region with soft edges; its endpoints lerp
+        // with the same ease as the shape, so the highlight rides the story
+        const acc =
+          smoothstep(f0 - 0.04, f0, u) * (1 - smoothstep(f1, f1 + 0.04, u));
         tmp.copy(bone).lerp(accent, acc);
         tmp.toArray(colors, i * 3);
       }
       posAttr.needsUpdate = true;
       colAttr.needsUpdate = true;
-
-      dust.rotation.z = Math.sin(t * 0.04) * 0.04;
-      dustMat.opacity = 0.4 + Math.sin(t * 0.5) * 0.1;
     };
 
     // paint one frame synchronously so the field is never blank on load
@@ -258,7 +209,8 @@ export default function SignalFieldGL() {
 
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("pointermove", onPointer);
+      window.removeEventListener("resize", remeasure);
+      bodyRo.disconnect();
       ro.disconnect();
       geo.dispose();
       dustGeo.dispose();
@@ -269,21 +221,6 @@ export default function SignalFieldGL() {
       composer.dispose();
       renderer.dispose();
       if (canvas.parentElement) canvas.parentElement.removeChild(canvas);
-    };
-  }, []);
-
-  // track page scroll progress without re-rendering React
-  useEffect(() => {
-    const onScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      progressRef.current = max > 0 ? window.scrollY / max : 0;
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
     };
   }, []);
 

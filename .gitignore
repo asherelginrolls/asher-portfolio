@@ -44,3 +44,5 @@ next-env.d.ts
 SESSION_PROMPT.md
 
 .vercel
+
+FABLE_REBUILD_PROMPT.md

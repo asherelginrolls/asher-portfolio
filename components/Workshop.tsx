@@ -4,18 +4,18 @@ import { Reveal } from "@/components/Reveal";
 
 export function Workshop() {
   return (
-    <section id="tools" className="py-20 sm:py-28 lg:py-32">
+    <section id="tools" data-signal="settle" className="py-20 sm:py-28 lg:py-32">
       <div className="wrap">
         <SectionHead
           index="04"
           eyebrow="The workshop"
           title={
             <>
-              Ten tools shipped.{" "}
+              Six tools live.{" "}
               <span className="text-accent">Open and try them.</span>
             </>
           }
-          lead="More than ten shipped AI tools, 200+ interactions across them. These are live. Open one."
+          lead="Custom GPTs, Claude skills, and n8n automations, 200+ user interactions across them. Every card below opens the real thing."
         />
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

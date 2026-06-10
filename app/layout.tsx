@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
-import { Cursor } from "@/components/Cursor";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Asher Elgin Rolls · AI-native growth operator",
     description:
-      "I take products to their first 100,000 users. I build the AI that gets them there. 14x on YouTube, a $1M pipeline from zero, and a RAG product shipped solo.",
+      "I take products to their first 100,000 users. I build the AI that gets them there. 7K to 100K on YouTube, a $1M pipeline from zero, and a RAG product shipped solo.",
     type: "website",
     url: SITE,
   },
@@ -49,7 +48,6 @@ export default function RootLayout({
     >
       <body>
         <SmoothScroll />
-        <Cursor />
         {children}
       </body>
     </html>

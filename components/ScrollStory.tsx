@@ -64,16 +64,20 @@ export function ScrollStory() {
           eyebrow="The story"
           title={
             <>
-              One line runs through <span className="text-accent">all of it.</span>
+              The surfaces changed.{" "}
+              <span className="text-accent">The work stayed the same.</span>
             </>
           }
-          lead="Attention has been my craft from the start. I learned how it moves, spent years moving it, learned to sell hard things with it, and built the AI systems that make it scale. The surfaces changed. The work stayed the same."
+          lead="Attention has been the craft from the start. I learned how it moves, spent years moving it, learned to sell hard things with it, and built the AI systems that make it scale."
         />
 
         <div className="mt-14 border-t border-ink/15">
           {acts.map((act, i) => (
             <Reveal key={act.no}>
-              <div className="relative grid grid-cols-1 gap-5 overflow-hidden border-b border-ink/15 py-9 md:grid-cols-12 md:gap-8 md:py-11">
+              <div
+                data-signal={act.signal}
+                className="relative grid grid-cols-1 gap-5 overflow-hidden border-b border-ink/15 py-9 md:grid-cols-12 md:gap-8 md:py-11"
+              >
                 {/* oversized ghost index */}
                 <span
                   aria-hidden="true"

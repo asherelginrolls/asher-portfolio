@@ -4,7 +4,7 @@ import { Reveal } from "@/components/Reveal";
 export function Contact() {
   const c = contact;
   return (
-    <section id="contact" className="py-20 sm:py-28 lg:py-32">
+    <section id="contact" data-signal="settle" className="py-20 sm:py-28 lg:py-32">
       <div className="wrap">
         <Reveal>
           <div className="relative overflow-hidden border border-ink/15 bg-paper-2/60 p-7 text-ink backdrop-blur-md sm:p-12 lg:p-16">
@@ -15,7 +15,7 @@ export function Contact() {
             />
 
             <span className="mono inline-flex items-center gap-2.5 border border-ink/20 px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] text-ink/80">
-              <span className="size-1.5 rounded-full bg-accent blink" />
+              <span className="h-px w-5 bg-accent" aria-hidden="true" />
               {c.status}
             </span>
 
