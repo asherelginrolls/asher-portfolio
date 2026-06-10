@@ -4,7 +4,11 @@ import { Reveal } from "@/components/Reveal";
 export function ClaimRight() {
   const cr = claimright;
   return (
-    <section id="claimright" className="py-20 sm:py-28 lg:py-32">
+    <section
+      id="claimright"
+      data-signal="settle"
+      className="py-20 sm:py-28 lg:py-32"
+    >
       <div className="wrap">
         <Reveal>
           <div className="border border-ink/20 bg-paper-2/40 p-6 sm:p-10 lg:p-14">

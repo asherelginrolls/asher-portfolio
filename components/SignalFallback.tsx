@@ -1,6 +1,7 @@
 // Static signal field for reduced-motion, no-WebGL, and small screens.
-// The same idea held still: a calm horizon with one luminous focal point.
-// No animation, no GPU. The site stands entirely on its own with this.
+// The same idea held still: a calm horizon in the open band above the
+// headline, with one luminous focal point at its tip. No animation, no GPU.
+// The lane matches the GL hero state (PARAMS[0] in lib/signalStates).
 
 export function SignalFallback() {
   return (
@@ -11,26 +12,26 @@ export function SignalFallback() {
       aria-hidden="true"
     >
       <defs>
-        <radialGradient id="sf-glow" cx="86%" cy="50%" r="40%">
-          <stop offset="0%" stopColor="#ff3b12" stopOpacity="0.5" />
+        <radialGradient id="sf-glow" cx="92%" cy="31%" r="32%">
+          <stop offset="0%" stopColor="#ff3b12" stopOpacity="0.4" />
           <stop offset="100%" stopColor="#ff3b12" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="sf-line" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#edeae0" stopOpacity="0.15" />
-          <stop offset="70%" stopColor="#edeae0" stopOpacity="0.55" />
-          <stop offset="92%" stopColor="#ff3b12" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#ff3b12" stopOpacity="0.3" />
+          <stop offset="0%" stopColor="#edeae0" stopOpacity="0.12" />
+          <stop offset="70%" stopColor="#edeae0" stopOpacity="0.5" />
+          <stop offset="93%" stopColor="#ff3b12" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#ff3b12" stopOpacity="0.35" />
         </linearGradient>
       </defs>
-      <circle cx="1240" cy="430" r="260" fill="url(#sf-glow)" />
-      {/* a quiet growth curve resolving toward the focal point */}
+      <circle cx="1325" cy="278" r="220" fill="url(#sf-glow)" />
+      {/* the horizon, holding its breath */}
       <path
-        d="M 0 520 C 360 516, 720 500, 980 450 S 1300 300, 1440 250"
+        d="M 0 282 C 360 281, 720 280, 1000 279 S 1320 277, 1440 276"
         fill="none"
         stroke="url(#sf-line)"
         strokeWidth="2"
       />
-      <circle cx="1440" cy="250" r="3.5" fill="#ff3b12" />
+      <circle cx="1432" cy="276" r="3.5" fill="#ff3b12" />
     </svg>
   );
 }

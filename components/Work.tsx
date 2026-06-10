@@ -4,7 +4,7 @@ import { Reveal } from "@/components/Reveal";
 
 export function Work() {
   return (
-    <section id="work" className="py-20 sm:py-28 lg:py-32">
+    <section id="work" data-signal="settle" className="py-20 sm:py-28 lg:py-32">
       <div className="wrap">
         <SectionHead
           index="02"

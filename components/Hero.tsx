@@ -6,7 +6,7 @@ import { Reveal } from "@/components/Reveal";
 export function Hero() {
   return (
     <section
-      id="top"
+      data-signal="horizon"
       className="relative flex min-h-[100svh] flex-col overflow-hidden"
     >
       <div className="wrap flex flex-1 flex-col pb-10 pt-28 sm:pt-32">

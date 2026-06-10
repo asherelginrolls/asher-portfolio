@@ -74,7 +74,10 @@ export function ScrollStory() {
         <div className="mt-14 border-t border-ink/15">
           {acts.map((act, i) => (
             <Reveal key={act.no}>
-              <div className="relative grid grid-cols-1 gap-5 overflow-hidden border-b border-ink/15 py-9 md:grid-cols-12 md:gap-8 md:py-11">
+              <div
+                data-signal={act.signal}
+                className="relative grid grid-cols-1 gap-5 overflow-hidden border-b border-ink/15 py-9 md:grid-cols-12 md:gap-8 md:py-11"
+              >
                 {/* oversized ghost index */}
                 <span
                   aria-hidden="true"
